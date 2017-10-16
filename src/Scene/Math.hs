@@ -6,5 +6,7 @@
 -- Stability: experimental
 -- Portability: portable
 module Scene.Math
-    (
+    ( module Scene.Math.Angle
     ) where
+
+import           Scene.Math.Angle
