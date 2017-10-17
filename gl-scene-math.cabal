@@ -17,7 +17,11 @@ library
   hs-source-dirs:      src
   exposed-modules:     Scene.Math
   other-modules:       Scene.Math.Angle
+                       Scene.Math.AspectRatio
+                       Scene.Math.Matrix
+                       Scene.Math.Vector
   build-depends:       base >= 4.7 && < 5
+                     , lens
                      , linear
   default-language:    Haskell2010
   ghc-options:         -Wall
