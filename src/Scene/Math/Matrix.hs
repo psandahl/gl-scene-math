@@ -10,19 +10,22 @@ module Scene.Math.Matrix
     , mkPerspectiveMatrix
     , mkViewMatrix
     , mkRotationMatrix
+    , mkTranslationMatrix
+    , mkScalingMatrix
     , mkIdentityMatrix
     , normalMatrix
     , mvpMatrix
+    , srtMatrix
     , apply
     ) where
 
 import           Control.Lens           (view)
 import           Flow                   ((<|))
-import           Linear                 (Epsilon, M33, M44, V3, V4, axisAngle,
-                                         fromQuaternion, identity, inv44,
-                                         lookAt, m33_to_m44, perspective, point,
-                                         transpose, vector, (!*), (!*!), _m33,
-                                         _xyz)
+import           Linear                 (Epsilon, M33, M44, V3 (..), V4 (..),
+                                         axisAngle, fromQuaternion, identity,
+                                         inv44, lookAt, m33_to_m44, perspective,
+                                         point, transpose, vector, (!*), (!*!),
+                                         _m33, _xyz)
 import           Scene.Math.Angle       (Angle, toRadians)
 import           Scene.Math.AspectRatio (AspectRatio, aspectRatio)
 
@@ -50,9 +53,25 @@ mkRotationMatrix :: (Epsilon a, Floating a) => V3 a -> Angle a -> M44 a
 mkRotationMatrix axis = m33_to_m44 . fromQuaternion . axisAngle axis . toRadians
 {-# INLINE mkRotationMatrix #-}
 
+-- | Helper function to create a translation matrix.
+mkTranslationMatrix :: Num a => V3 a -> M44 a
+mkTranslationMatrix (V3 x y z) =
+    V4 (V4 1 0 0 x)
+       (V4 0 1 0 y)
+       (V4 0 0 1 z)
+       (V4 0 0 0 1)
+
+-- | Helper function to create a scaling matrix.
+mkScalingMatrix :: Num a => V3 a -> M44 a
+mkScalingMatrix (V3 x y z) =
+    V4 (V4 x 0 0 0)
+       (V4 0 y 0 0)
+       (V4 0 0 z 0)
+       (V4 0 0 0 1)
+
 -- | Helper function to create an identity matrix. Identical to 'identity'
 -- from the Linear, but with the same naming scheme as the other in this library.
-mkIdentityMatrix :: Floating a => M44 a
+mkIdentityMatrix :: Num a => M44 a
 mkIdentityMatrix = identity
 {-# INLINE mkIdentityMatrix #-}
 
@@ -61,10 +80,19 @@ normalMatrix :: Fractional a => M44 a -> M33 a
 normalMatrix = view _m33 . transpose . inv44
 {-# INLINE normalMatrix #-}
 
--- | Concatenate the model, view and projection matrices into the mvp matrix.
+-- | Concatenate the model, view and perspective matrices into the mvp matrix.
+-- The matrices *must* be given in this exact argument order; model, view and
+-- perspective.
 mvpMatrix :: Num a => M44 a -> M44 a -> M44 a -> M44 a
 mvpMatrix m v p = p !*! v !*! m
 {-# INLINE mvpMatrix #-}
+
+-- | Concatenate scale, rotate and translate model matrices to a final model
+-- matrix. The matrices *must* be given in this exact argument order;
+-- scale, rotate and translate.
+srtMatrix :: Num a => M44 a -> M44 a -> M44 a -> M44 a
+srtMatrix s r t = t !*! r !*! s
+{-# INLINE srtMatrix #-}
 
 -- | Apply the (column major) vector to the 4x4 matrix.
 apply :: Num a => M44 a -> Application a -> V3 a
