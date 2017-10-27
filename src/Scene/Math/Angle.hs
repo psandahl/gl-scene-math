@@ -9,11 +9,10 @@ module Scene.Math.Angle
     ( Angle (..)
     , toDegrees
     , toRadians
-    , angleAdd
-    , angleAddI
-    , angleSub
-    , angleSubI
+    , unpack
     ) where
+
+import           Flow ((<|))
 
 -- | A representation of an angle.
 data Angle a
@@ -21,6 +20,25 @@ data Angle a
     | Radians !a
     deriving (Eq, Show)
 
+-- | Convert an 'Angle' to degrees.
+toDegrees :: Floating a => Angle a -> Angle a
+toDegrees deg@(Degrees _theta) = deg
+toDegrees (Radians theta)      = Degrees <| theta * (180 / pi)
+{-# INLINE toDegrees #-}
+
+-- | Convert an 'Angle' to radians.
+toRadians :: Floating a => Angle a -> Angle a
+toRadians rad@(Radians _theta) = rad
+toRadians (Degrees theta)      = Radians <| theta * (pi / 180)
+{-# INLINE toRadians #-}
+
+-- | Unpack an 'Angle' to its underlying type.
+unpack :: Angle a -> a
+unpack (Degrees theta) = theta
+unpack (Radians theta) = theta
+{-# INLINE unpack #-}
+
+{-}
 -- | Serialize the 'Angle' to a floating value while converting to degrees.
 toDegrees :: Floating a => Angle a -> a
 toDegrees (Degrees angle) = angle
@@ -58,3 +76,4 @@ angleSubI :: Num a => Angle a -> a -> Angle a
 angleSubI (Degrees angle) immediate = Degrees (angle - immediate)
 angleSubI (Radians angle) immediate = Radians (angle - immediate)
 {-# INLINE angleSubI #-}
+-}

@@ -31,10 +31,11 @@ test-suite gl-scene-math-tests
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Main.hs
+  other-modules:       AngleTests
   build-depends:       base >= 4.7 && < 5
+                     , flow
                      , gl-scene-math
                      , HUnit
-                     , HUnit-approx
                      , linear
                      , test-framework
                      , test-framework-hunit
