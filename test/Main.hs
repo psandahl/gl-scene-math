@@ -2,7 +2,11 @@ module Main
     ( main
     ) where
 
-import           AngleTests                     (convertDegreesToDegrees,
+import           AngleTests                     (addDegreesToDegrees,
+                                                 addDegreesToRadians,
+                                                 addRadiansToDegrees,
+                                                 addRadiansToRadians,
+                                                 convertDegreesToDegrees,
                                                  convertDegreesToRadians,
                                                  convertRadiansToDegrees,
                                                  convertRadiansToRadians)
@@ -19,5 +23,9 @@ testSuite =
         , testCase "Convert Radians to Degrees" convertRadiansToDegrees
         , testCase "Convert Radians to Radians" convertRadiansToRadians
         , testCase "Convert Degrees to Radians" convertDegreesToRadians
+        , testCase "Add Degrees to Degrees" addDegreesToDegrees
+        , testCase "Add Radians to Radians" addRadiansToRadians
+        , testCase "Add Radians to Degrees" addRadiansToDegrees
+        , testCase "Add Degrees to Radians" addDegreesToRadians
         ]
     ]

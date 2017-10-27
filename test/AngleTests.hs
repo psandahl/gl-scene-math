@@ -3,6 +3,10 @@ module AngleTests
     , convertRadiansToDegrees
     , convertRadiansToRadians
     , convertDegreesToRadians
+    , addDegreesToDegrees
+    , addRadiansToRadians
+    , addRadiansToDegrees
+    , addDegreesToRadians
     ) where
 
 import           Flow       ((<|))
@@ -40,3 +44,23 @@ convertDegreesToRadians = do
     Radians pi @=? (toRadians <| Degrees 180 :: Angle Float)
     Radians (pi + pi / 2) @=? (toRadians <| Degrees 270 :: Angle Float)
     Radians (pi * 2) @=? (toRadians <| Degrees 360 :: Angle Float)
+
+-- | Add degrees to degrees.
+addDegreesToDegrees :: Assertion
+addDegreesToDegrees =
+    Degrees 360 @=? addAngles (Degrees 180) (Degrees 180 :: Angle Float)
+
+-- | Add radians to radians
+addRadiansToRadians :: Assertion
+addRadiansToRadians =
+    Radians (pi * 2) @=? addAngles (Radians pi) (Radians pi :: Angle Float)
+
+-- | Add radians to degrees.
+addRadiansToDegrees :: Assertion
+addRadiansToDegrees =
+    Degrees 360 @=? addAngles (Degrees 180) (Radians pi :: Angle Float)
+
+-- | Add degrees to radians.
+addDegreesToRadians :: Assertion
+addDegreesToRadians =
+    Radians (pi * 2) @=? addAngles (Radians pi) (Degrees 180 :: Angle Float)

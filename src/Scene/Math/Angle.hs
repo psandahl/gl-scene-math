@@ -9,6 +9,7 @@ module Scene.Math.Angle
     ( Angle (..)
     , toDegrees
     , toRadians
+    , addAngles
     , unpack
     ) where
 
@@ -31,6 +32,15 @@ toRadians :: Floating a => Angle a -> Angle a
 toRadians rad@(Radians _theta) = rad
 toRadians (Degrees theta)      = Radians <| theta * (pi / 180)
 {-# INLINE toRadians #-}
+
+-- | Add two angles together. If the units differ, the right angle will be
+-- converted to the unit of the left angle.
+addAngles :: Floating a => Angle a -> Angle a -> Angle a
+addAngles (Degrees left) (Degrees right) = Degrees <| left + right
+addAngles (Radians left) (Radians right) = Radians <| left + right
+addAngles left@(Degrees _l) right        = addAngles left <| toDegrees right
+addAngles left@(Radians _l) right        = addAngles left <| toRadians right
+{-# INLINE addAngles #-}
 
 -- | Unpack an 'Angle' to its underlying type.
 unpack :: Angle a -> a
