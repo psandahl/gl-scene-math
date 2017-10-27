@@ -9,7 +9,8 @@ import           AngleTests                     (addDegreesToDegrees,
                                                  convertDegreesToDegrees,
                                                  convertDegreesToRadians,
                                                  convertRadiansToDegrees,
-                                                 convertRadiansToRadians)
+                                                 convertRadiansToRadians,
+                                                 mulDegrees, mulRadians)
 import           Test.Framework                 (Test, defaultMain, testGroup)
 import           Test.Framework.Providers.HUnit (testCase)
 
@@ -27,5 +28,7 @@ testSuite =
         , testCase "Add Radians to Radians" addRadiansToRadians
         , testCase "Add Radians to Degrees" addRadiansToDegrees
         , testCase "Add Degrees to Radians" addDegreesToRadians
+        , testCase "Multiply Degrees" mulDegrees
+        , testCase "Multiply Radians" mulRadians
         ]
     ]

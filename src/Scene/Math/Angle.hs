@@ -10,6 +10,7 @@ module Scene.Math.Angle
     , toDegrees
     , toRadians
     , addAngles
+    , mulAngle
     , unpack
     ) where
 
@@ -42,48 +43,14 @@ addAngles left@(Degrees _l) right        = addAngles left <| toDegrees right
 addAngles left@(Radians _l) right        = addAngles left <| toRadians right
 {-# INLINE addAngles #-}
 
+-- | Multiply an angle with a literal value.
+mulAngle :: Floating a => Angle a -> a -> Angle a
+mulAngle (Degrees theta) factor = Degrees <| theta * factor
+mulAngle (Radians theta) factor = Radians <| theta * factor
+{-# INLINE mulAngle #-}
+
 -- | Unpack an 'Angle' to its underlying type.
 unpack :: Angle a -> a
 unpack (Degrees theta) = theta
 unpack (Radians theta) = theta
 {-# INLINE unpack #-}
-
-{-}
--- | Serialize the 'Angle' to a floating value while converting to degrees.
-toDegrees :: Floating a => Angle a -> a
-toDegrees (Degrees angle) = angle
-toDegrees (Radians angle) = angle * (180 / pi)
-{-# INLINE toDegrees #-}
-
--- | Serialize the 'Angle' to a floating value while convertiong to radians.
-toRadians :: Floating a => Angle a -> a
-toRadians (Degrees angle) = angle * (pi / 180)
-toRadians (Radians angle) = angle
-{-# INLINE toRadians #-}
-
--- | Add two 'Angle's.
-angleAdd :: Num a => Angle a -> Angle a -> Maybe (Angle a)
-angleAdd (Degrees angle1) (Degrees angle2) = Just $! Degrees (angle1 + angle2)
-angleAdd (Radians angle1) (Radians angle2) = Just $! Radians (angle1 + angle2)
-angleAdd _ _                               = Nothing
-{-# INLINE angleAdd #-}
-
--- | Add an immediate to an 'Angle'.
-angleAddI :: Num a => Angle a -> a -> Angle a
-angleAddI (Degrees angle) immediate = Degrees (angle + immediate)
-angleAddI (Radians angle) immediate = Radians (angle + immediate)
-{-# INLINE angleAddI #-}
-
--- | Subtract 'Angle's.
-angleSub :: Num a => Angle a -> Angle a -> Maybe (Angle a)
-angleSub (Degrees angle1) (Degrees angle2) = Just $! Degrees (angle1 - angle2)
-angleSub (Radians angle1) (Radians angle2) = Just $! Radians (angle1 - angle2)
-angleSub _ _                               = Nothing
-{-# INLINE angleSub #-}
-
--- | Subtract an immediate from an 'Angle'.
-angleSubI :: Num a => Angle a -> a -> Angle a
-angleSubI (Degrees angle) immediate = Degrees (angle - immediate)
-angleSubI (Radians angle) immediate = Radians (angle - immediate)
-{-# INLINE angleSubI #-}
--}

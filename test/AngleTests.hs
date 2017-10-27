@@ -7,6 +7,8 @@ module AngleTests
     , addRadiansToRadians
     , addRadiansToDegrees
     , addDegreesToRadians
+    , mulDegrees
+    , mulRadians
     ) where
 
 import           Flow       ((<|))
@@ -64,3 +66,13 @@ addRadiansToDegrees =
 addDegreesToRadians :: Assertion
 addDegreesToRadians =
     Radians (pi * 2) @=? addAngles (Radians pi) (Degrees 180 :: Angle Float)
+
+-- | Multiply degrees.
+mulDegrees :: Assertion
+mulDegrees =
+    Degrees 180 @=? mulAngle (Degrees 90 :: Angle Float) 2
+
+-- | Multiply radians.
+mulRadians :: Assertion
+mulRadians =
+    Radians pi @=? mulAngle (Radians (pi / 2) :: Angle Float) 2
