@@ -9,10 +9,12 @@ module Scene.Math
     ( module Scene.Math.Angle
     , module Scene.Math.AspectRatio
     , module Scene.Math.Matrix
+    , module Scene.Math.Surface
     , module Scene.Math.Vector
     ) where
 
 import           Scene.Math.Angle
 import           Scene.Math.AspectRatio
 import           Scene.Math.Matrix
+import           Scene.Math.Surface
 import           Scene.Math.Vector

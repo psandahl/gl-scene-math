@@ -6,16 +6,13 @@
 -- Stability: experimental
 -- Portability: portable
 module Scene.Math.AspectRatio
-    ( AspectRatio (..)
-    , aspectRatio
+    ( aspectRatio
     ) where
 
-data AspectRatio = AspectRatio
-    { width  :: !Int
-    , height :: !Int
-    } deriving (Eq, Show)
+import           Scene (Viewport (..))
 
-aspectRatio :: Floating a => AspectRatio -> a
-aspectRatio ar =
-    fromIntegral (width ar) / fromIntegral (height ar)
+-- | Calculate an aspect ratio for a 'Viewport'.
+aspectRatio :: Floating a => Viewport -> a
+aspectRatio viewport =
+    fromIntegral (width viewport) / fromIntegral (height viewport)
 {-# INLINE aspectRatio #-}

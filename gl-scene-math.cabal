@@ -19,9 +19,11 @@ library
   other-modules:       Scene.Math.Angle
                        Scene.Math.AspectRatio
                        Scene.Math.Matrix
+                       Scene.Math.Surface
                        Scene.Math.Vector
   build-depends:       base >= 4.7 && < 5
                      , flow
+                     , gl-scene
                      , lens
                      , linear
   default-language:    Haskell2010

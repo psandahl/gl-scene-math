@@ -26,8 +26,9 @@ import           Linear                 (Epsilon, M33, M44, V3 (..), V4 (..),
                                          inv44, lookAt, m33_to_m44, perspective,
                                          point, transpose, vector, (!*), (!*!),
                                          _m33, _xyz)
+import           Scene                  (Viewport)
 import           Scene.Math.Angle       (Angle, toRadians, unpack)
-import           Scene.Math.AspectRatio (AspectRatio, aspectRatio)
+import           Scene.Math.AspectRatio (aspectRatio)
 
 -- | When a 'V3' is applied to a 4x4 matrix, it can be applied either as a point
 -- or as a vector.
@@ -36,8 +37,9 @@ data Application a
     | Vector !(V3 a)
     deriving (Eq, Show)
 
--- | Helper function to create a perspective matrix.
-mkPerspectiveMatrix :: Floating a => Angle a -> AspectRatio -> a -> a -> M44 a
+-- | Helper function to create a perspective matrix from a viewing 'Angle',
+-- a 'Viewport' and the near and far planes.
+mkPerspectiveMatrix :: Floating a => Angle a -> Viewport -> a -> a -> M44 a
 mkPerspectiveMatrix angle ar = perspective (unpack <| toRadians angle) (aspectRatio ar)
 {-# INLINE mkPerspectiveMatrix #-}
 
