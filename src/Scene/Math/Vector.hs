@@ -42,12 +42,12 @@ up3d = y3d
 
 -- | A 3D normal vector pointing downwards, i.e. in the negative y direction.
 down3d :: Num a => V3 a
-down3d = negate y3d
+down3d = V3 0 (-1) 0
 {-# INLINE down3d #-}
 
 -- | A 3D normal vector pointing left, i.e. in the negative x direction.
 left3d :: Num a => V3 a
-left3d = negate x3d
+left3d = V3 (-1) 0 0
 {-# INLINE left3d #-}
 
 -- | A 3D normal vector pointing right, i.e. in the positive x direction.
@@ -62,7 +62,7 @@ back3d = z3d
 
 -- | A 3D normal vector pointing to the front, i.e. in the negative z direction.
 front3d :: Num a => V3 a
-front3d = negate z3d
+front3d = V3 0 0 (-1)
 {-# INLINE front3d #-}
 
 -- | A 3D vector describing the origo.

@@ -12,9 +12,12 @@ module Scene.Math.Angle
     , addAngles
     , mulAngle
     , unpack
+    , eulerHeading
+    , eulerElevation
     ) where
 
-import           Flow ((<|))
+import           Flow   ((<|))
+import           Linear (Epsilon, V3 (..), normalize)
 
 -- | A representation of an angle.
 data Angle a
@@ -54,3 +57,18 @@ unpack :: Angle a -> a
 unpack (Degrees theta) = theta
 unpack (Radians theta) = theta
 {-# INLINE unpack #-}
+
+-- | Project a 'V3' on the earth surface (i.e. remote the y component) and
+-- take the angle it head towards. An angle of zero is heading in the positive
+-- z direction.
+eulerHeading :: RealFloat a => V3 a -> Angle a
+eulerHeading (V3 x _y z) = Radians <| atan2 x z
+{-# INLINE eulerHeading #-}
+
+-- | The elevation of the 'V3' with respect to the horizon.
+eulerElevation :: (Epsilon a, Floating a) => V3 a -> Angle a
+eulerElevation vec =
+    let V3 _x y _z = normalize vec
+        angle = asin y
+    in Radians angle
+{-# INLINE eulerElevation #-}
