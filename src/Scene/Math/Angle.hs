@@ -11,6 +11,7 @@ module Scene.Math.Angle
     , toRadians
     , addAngles
     , mulAngle
+    , negateAngle
     , unpack
     , eulerHeading
     , eulerElevation
@@ -51,6 +52,12 @@ mulAngle :: Floating a => Angle a -> a -> Angle a
 mulAngle (Degrees theta) factor = Degrees <| theta * factor
 mulAngle (Radians theta) factor = Radians <| theta * factor
 {-# INLINE mulAngle #-}
+
+-- | Negate an angle.
+negateAngle :: Num a => Angle a -> Angle a
+negateAngle (Degrees theta) = Degrees <| negate theta
+negateAngle (Radians theta) = Radians <| negate theta
+{-# INLINE negateAngle #-}
 
 -- | Unpack an 'Angle' to its underlying type.
 unpack :: Angle a -> a
