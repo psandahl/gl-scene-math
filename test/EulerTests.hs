@@ -1,11 +1,17 @@
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 module EulerTests
     ( eulerHeadings
     , eulerElevations
+    , fromAnglesAndBackAgain
     ) where
 
-import           Linear     (V3 (..))
+import           Linear          (V3 (..))
 import           Scene.Math
-import           Test.HUnit (Assertion, (@=?))
+import           Test.HUnit      (Assertion, (@=?))
+import           Test.QuickCheck
+
+instance Arbitrary a => Arbitrary (Angle a) where
+    arbitrary = Radians <$> arbitrary
 
 -- | Test the calculation of Euler heading angles.
 eulerHeadings :: Assertion
@@ -22,3 +28,10 @@ eulerElevations = do
     Radians 0 @=? eulerElevation (right3d :: V3 Float)
     Radians (pi / 2) @=? eulerElevation (up3d :: V3 Float)
     Radians (-pi / 2) @=? eulerElevation (down3d :: V3 Float)
+
+fromAnglesAndBackAgain :: Angle Float -> Angle Float -> Bool
+fromAnglesAndBackAgain heading elevation =
+    let vec = fromEulerAngles heading elevation
+        heading' = eulerHeading vec
+        elevation' = eulerElevation vec
+    in heading == heading' && elevation == elevation'

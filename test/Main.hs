@@ -2,18 +2,23 @@ module Main
     ( main
     ) where
 
-import           AngleTests                     (addDegreesToDegrees,
-                                                 addDegreesToRadians,
-                                                 addRadiansToDegrees,
-                                                 addRadiansToRadians,
-                                                 convertDegreesToDegrees,
-                                                 convertDegreesToRadians,
-                                                 convertRadiansToDegrees,
-                                                 convertRadiansToRadians,
-                                                 mulDegrees, mulRadians)
-import           EulerTests                     (eulerElevations, eulerHeadings)
-import           Test.Framework                 (Test, defaultMain, testGroup)
-import           Test.Framework.Providers.HUnit (testCase)
+import           AngleTests                           (addDegreesToDegrees,
+                                                       addDegreesToRadians,
+                                                       addRadiansToDegrees,
+                                                       addRadiansToRadians,
+                                                       convertDegreesToDegrees,
+                                                       convertDegreesToRadians,
+                                                       convertRadiansToDegrees,
+                                                       convertRadiansToRadians,
+                                                       mulDegrees, mulRadians)
+import           EulerTests                           (eulerElevations,
+                                                       eulerHeadings,
+                                                       fromAnglesAndBackAgain)
+import           Test.Framework                       (Test, defaultMain,
+                                                       testGroup)
+import           Test.Framework.Providers.HUnit       (testCase)
+import           Test.Framework.Providers.QuickCheck2 (testProperty)
+
 
 main :: IO ()
 main = defaultMain testSuite
@@ -35,5 +40,6 @@ testSuite =
     , testGroup "Euler tests"
         [ testCase "Calculation of Euler headings" eulerHeadings
         , testCase "Calculation of Euler elevations" eulerElevations
+        , testProperty "From angles and back again" fromAnglesAndBackAgain
         ]
     ]
