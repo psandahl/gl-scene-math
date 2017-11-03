@@ -18,6 +18,7 @@ library
   exposed-modules:     Scene.Math
   other-modules:       Scene.Math.Angle
                        Scene.Math.AspectRatio
+                       Scene.Math.Euler
                        Scene.Math.Matrix
                        Scene.Math.Surface
                        Scene.Math.Vector
