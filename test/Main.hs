@@ -10,8 +10,8 @@ import           AngleTests                     (addDegreesToDegrees,
                                                  convertDegreesToRadians,
                                                  convertRadiansToDegrees,
                                                  convertRadiansToRadians,
-                                                 eulerElevations, eulerHeadings,
                                                  mulDegrees, mulRadians)
+import           EulerTests                     (eulerElevations, eulerHeadings)
 import           Test.Framework                 (Test, defaultMain, testGroup)
 import           Test.Framework.Providers.HUnit (testCase)
 
@@ -31,7 +31,9 @@ testSuite =
         , testCase "Add Degrees to Radians" addDegreesToRadians
         , testCase "Multiply Degrees" mulDegrees
         , testCase "Multiply Radians" mulRadians
-        , testCase "Calculation of Euler headings" eulerHeadings
+        ]
+    , testGroup "Euler tests"
+        [ testCase "Calculation of Euler headings" eulerHeadings
         , testCase "Calculation of Euler elevations" eulerElevations
         ]
     ]
