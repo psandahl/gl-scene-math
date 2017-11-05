@@ -35,11 +35,13 @@ test-suite gl-scene-math-tests
   hs-source-dirs:      test
   main-is:             Main.hs
   other-modules:       AngleTests
+                       EulerTests
   build-depends:       base >= 4.7 && < 5
                      , flow
                      , gl-scene-math
                      , HUnit
                      , linear
+                     , random
                      , test-framework
                      , test-framework-hunit
                      , test-framework-quickcheck2

@@ -13,7 +13,7 @@ import           AngleTests                           (addDegreesToDegrees,
                                                        mulDegrees, mulRadians)
 import           EulerTests                           (eulerElevations,
                                                        eulerHeadings,
-                                                       fromAnglesAndBackAgain)
+                                                       fromVectorAndBackAgain)
 import           Test.Framework                       (Test, defaultMain,
                                                        testGroup)
 import           Test.Framework.Providers.HUnit       (testCase)
@@ -40,6 +40,6 @@ testSuite =
     , testGroup "Euler tests"
         [ testCase "Calculation of Euler headings" eulerHeadings
         , testCase "Calculation of Euler elevations" eulerElevations
-        , testProperty "From angles and back again" fromAnglesAndBackAgain
+        , testProperty "From vector and back again" fromVectorAndBackAgain
         ]
     ]

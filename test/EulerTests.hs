@@ -2,16 +2,21 @@
 module EulerTests
     ( eulerHeadings
     , eulerElevations
-    , fromAnglesAndBackAgain
+    , fromVectorAndBackAgain
     ) where
 
-import           Linear          (V3 (..))
+import           Linear          (Epsilon, V3 (..), nearZero, normalize)
 import           Scene.Math
+import           System.Random   (Random)
 import           Test.HUnit      (Assertion, (@=?))
 import           Test.QuickCheck
 
-instance Arbitrary a => Arbitrary (Angle a) where
-    arbitrary = Radians <$> arbitrary
+-- | Generate a random 3D direction vector. Make sure the vector is normalized,
+-- as the vector constructed from fromEulerAngles is normalized.
+instance (Epsilon a, Floating a, Random a) => Arbitrary (V3 a) where
+    arbitrary = do
+        vec <- V3 <$> choose (-1, 1) <*> choose (-1, 1) <*> choose (-1, 1)
+        return $ normalize vec
 
 -- | Test the calculation of Euler heading angles.
 eulerHeadings :: Assertion
@@ -29,9 +34,15 @@ eulerElevations = do
     Radians (pi / 2) @=? eulerElevation (up3d :: V3 Float)
     Radians (-pi / 2) @=? eulerElevation (down3d :: V3 Float)
 
-fromAnglesAndBackAgain :: Angle Float -> Angle Float -> Bool
-fromAnglesAndBackAgain heading elevation =
-    let vec = fromEulerAngles heading elevation
-        heading' = eulerHeading vec
-        elevation' = eulerElevation vec
-    in heading == heading' && elevation == elevation'
+-- | From a random 'V3', calculate euler angles and from them generate a new
+-- 'V3'. Shall be 'nearVectors' to the original.
+fromVectorAndBackAgain :: V3 Float -> Bool
+fromVectorAndBackAgain vec =
+    let heading = eulerHeading vec
+        elevation = eulerElevation vec
+        vec' = fromEulerAngles heading elevation
+    in vec `nearVectors` vec'
+
+nearVectors :: Epsilon a => V3 a -> V3 a -> Bool
+nearVectors (V3 x y z) (V3 x' y' z') =
+    nearZero (x - x') && nearZero (y - y') && nearZero (z - z')

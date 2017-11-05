@@ -25,7 +25,8 @@ eulerHeading :: RealFloat a => V3 a -> Angle a
 eulerHeading (V3 x _y z) = Radians <| atan2 x z
 {-# INLINE eulerHeading #-}
 
--- | The elevation of the 'V3' with respect to the horizon.
+-- | The elevation of the 'V3' with respect to the horizon. A positive 'Angle'
+-- is pointing up, and a negative 'Angle' is pointing down.
 eulerElevation :: (Epsilon a, Floating a) => V3 a -> Angle a
 eulerElevation vec =
     let V3 _x y _z = normalize vec
@@ -33,9 +34,12 @@ eulerElevation vec =
     in Radians angle
 {-# INLINE eulerElevation #-}
 
+-- | From heading and elevation make a new 'V3'. Remember: zero degrees heading
+-- is in the positive z direction. A positive elevation is pointing above the
+-- horizon and a negativ is pointing below.
 fromEulerAngles :: (Epsilon a, Floating a) => Angle a -> Angle a -> V3 a
-fromEulerAngles heading' elevation' =
-    let pitch = mkRotationMatrix x3d <| negateAngle elevation'
-        yaw = mkRotationMatrix y3d heading'
+fromEulerAngles heading elevation =
+    let pitch = mkRotationMatrix x3d <| negateAngle elevation
+        yaw = mkRotationMatrix y3d heading
         mat = yaw !*! pitch
     in apply mat <| Vector back3d
