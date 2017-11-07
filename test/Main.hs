@@ -10,7 +10,11 @@ import           AngleTests                           (addDegreesToDegrees,
                                                        convertDegreesToRadians,
                                                        convertRadiansToDegrees,
                                                        convertRadiansToRadians,
-                                                       mulDegrees, mulRadians)
+                                                       mulDegrees, mulRadians,
+                                                       subDegreesFromDegrees,
+                                                       subDegreesFromRadians,
+                                                       subRadiansFromDegrees,
+                                                       subRadiansFromRadians)
 import           EulerTests                           (eulerElevations,
                                                        eulerHeadings,
                                                        fromVectorAndBackAgain)
@@ -34,6 +38,10 @@ testSuite =
         , testCase "Add Radians to Radians" addRadiansToRadians
         , testCase "Add Radians to Degrees" addRadiansToDegrees
         , testCase "Add Degrees to Radians" addDegreesToRadians
+        , testCase "Sub Degrees from Degrees" subDegreesFromDegrees
+        , testCase "Sub Radians from Radians" subRadiansFromRadians
+        , testCase "Sub Radians from Degrees" subRadiansFromDegrees
+        , testCase "Sub Degrees from Radians" subDegreesFromRadians
         , testCase "Multiply Degrees" mulDegrees
         , testCase "Multiply Radians" mulRadians
         ]

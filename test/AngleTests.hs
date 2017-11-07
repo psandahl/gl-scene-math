@@ -7,6 +7,10 @@ module AngleTests
     , addRadiansToRadians
     , addRadiansToDegrees
     , addDegreesToRadians
+    , subDegreesFromDegrees
+    , subRadiansFromRadians
+    , subRadiansFromDegrees
+    , subDegreesFromRadians
     , mulDegrees
     , mulRadians
     ) where
@@ -66,6 +70,24 @@ addRadiansToDegrees =
 addDegreesToRadians :: Assertion
 addDegreesToRadians =
     Radians (pi * 2) @=? addAngles (Radians pi) (Degrees 180 :: Angle Float)
+
+-- | Subtract degrees from degrees.
+subDegreesFromDegrees :: Assertion
+subDegreesFromDegrees =
+    Degrees 180 @=? subAngles (Degrees 360) (Degrees 180 :: Angle Float)
+
+-- | Subtract radians from radians.
+subRadiansFromRadians :: Assertion
+subRadiansFromRadians =
+    Radians pi @=? subAngles (Radians (2 * pi)) (Radians pi :: Angle Float)
+
+subRadiansFromDegrees :: Assertion
+subRadiansFromDegrees =
+    Degrees 180 @=? subAngles (Degrees 360) (Radians pi :: Angle Float)
+
+subDegreesFromRadians :: Assertion
+subDegreesFromRadians =
+    Radians pi @=? subAngles (Radians (2 * pi)) (Degrees 180 :: Angle Float)
 
 -- | Multiply degrees.
 mulDegrees :: Assertion

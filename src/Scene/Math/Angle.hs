@@ -10,6 +10,7 @@ module Scene.Math.Angle
     , toDegrees
     , toRadians
     , addAngles
+    , subAngles
     , mulAngle
     , negateAngle
     , unpack
@@ -43,6 +44,15 @@ addAngles (Radians left) (Radians right) = Radians <| left + right
 addAngles left@(Degrees _l) right        = addAngles left <| toDegrees right
 addAngles left@(Radians _l) right        = addAngles left <| toRadians right
 {-# INLINE addAngles #-}
+
+-- | Subtract the right angle from the left. If the units differ, the right
+-- angle will be converted to the unit of the left angle.
+subAngles :: Floating a => Angle a -> Angle a -> Angle a
+subAngles (Degrees left) (Degrees right) = Degrees <| left - right
+subAngles (Radians left) (Radians right) = Radians <| left - right
+subAngles left@(Degrees _l) right        = subAngles left <| toDegrees right
+subAngles left@(Radians _l) right        = subAngles left <| toRadians right
+{-# INLINE subAngles #-}
 
 -- | Multiply an angle with a literal value.
 mulAngle :: Floating a => Angle a -> a -> Angle a
