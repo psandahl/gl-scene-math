@@ -22,6 +22,7 @@ import           Test.Framework                       (Test, defaultMain,
                                                        testGroup)
 import           Test.Framework.Providers.HUnit       (testCase)
 import           Test.Framework.Providers.QuickCheck2 (testProperty)
+import           UtilTests                            (clampInt)
 
 
 main :: IO ()
@@ -49,5 +50,8 @@ testSuite =
         [ testCase "Calculation of Euler headings" eulerHeadings
         , testCase "Calculation of Euler elevations" eulerElevations
         , testProperty "From vector and back again" fromVectorAndBackAgain
+        ]
+    , testGroup "Util tests"
+        [ testProperty "Clamping an int between -10 and 10" clampInt
         ]
     ]

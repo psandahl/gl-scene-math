@@ -21,6 +21,7 @@ library
                        Scene.Math.Euler
                        Scene.Math.Matrix
                        Scene.Math.Surface
+                       Scene.Math.Util
                        Scene.Math.Vector
   build-depends:       base >= 4.7 && < 5
                      , flow
@@ -36,6 +37,7 @@ test-suite gl-scene-math-tests
   main-is:             Main.hs
   other-modules:       AngleTests
                        EulerTests
+                       UtilTests
   build-depends:       base >= 4.7 && < 5
                      , flow
                      , gl-scene-math
