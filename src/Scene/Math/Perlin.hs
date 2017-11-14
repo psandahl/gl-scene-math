@@ -11,14 +11,16 @@ module Scene.Math.Perlin
     , initPerlin
     , noise2D
     , composedNoise2D
-    , normalizeToFloat
+    , normalizeToGLfloat
     ) where
 
 import           Data.Bits           ((.&.))
 import           Data.List           (foldl')
 import           Data.Vector.Unboxed (Vector, fromList, (!))
+import           Flow                ((<|))
 import           Prelude             hiding (init)
-import           Scene.Math.Util     (clamp)
+import           Scene               (GLfloat)
+import           Scene.Math.Util     (clamp, lerp)
 
 -- | Permutation table used for Perlin noise generation. Precalculate the table.
 newtype Perlin = Perlin (Vector Int)
@@ -26,7 +28,7 @@ newtype Perlin = Perlin (Vector Int)
 
 -- | Initialize the permutation table.
 initPerlin :: Perlin
-initPerlin = Perlin $ fromList (permutations ++ permutations)
+initPerlin = Perlin <| fromList (permutations ++ permutations)
 
 -- | 2D noise as specified by Ken Perlin's improved algorithm.
 noise2D :: Perlin -> Double -> Double -> Double
@@ -57,14 +59,8 @@ noise2D (Perlin table) !x !y =
         toDouble :: Int -> Double
         toDouble = fromIntegral
 
-lerp :: Double -> Double -> Double -> Double
-lerp !amount !left !right =
-    (1 - amount) * left + amount * right
-{-# INLINE lerp #-}
-
 fade :: Double -> Double
 fade !t = t * t * t * (t * (t * 6 - 15) + 10)
-{-# INLINE fade #-}
 
 grad :: Int -> Double -> Double -> Double
 grad !hash !x !y =
@@ -81,18 +77,18 @@ composedNoise2D perlin !x !y =
     foldl' (\acc (freq, altitude) ->
         acc + altitude * noise2D perlin (x * freq) (y * freq)
         ) 0
+{-# INLINE composedNoise2D #-}
 
 -- | Take a Double, clamp it to the range [-1, 1], squeeze the range to [0, 1]
--- and convert to a Float.
-normalizeToFloat :: Double -> Float
-normalizeToFloat = realToFrac . transformRange . clamp (-1) 1
-{-# INLINE normalizeToFloat #-}
+-- and convert to a GLfloat.
+normalizeToGLfloat :: Double -> GLfloat
+normalizeToGLfloat = realToFrac . transformRange . clamp (-1) 1
+{-# INLINE normalizeToGLfloat #-}
 
 transformRange :: Double -> Double
 transformRange !value = (value + 1) / 2
-{-# INLINE transformRange #-}
 
--- | Permutations table.
+-- | Permutations table. Magic numbers.
 permutations :: [Int]
 permutations =
     [ 151,160,137,91,90,15
