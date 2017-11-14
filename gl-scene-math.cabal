@@ -20,6 +20,7 @@ library
                        Scene.Math.AspectRatio
                        Scene.Math.Euler
                        Scene.Math.Matrix
+                       Scene.Math.Perlin
                        Scene.Math.Surface
                        Scene.Math.Util
                        Scene.Math.Vector
@@ -28,6 +29,7 @@ library
                      , gl-scene
                      , lens
                      , linear
+                     , vector
   default-language:    Haskell2010
   ghc-options:         -Wall
 
