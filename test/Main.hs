@@ -22,7 +22,7 @@ import           Test.Framework                       (Test, defaultMain,
                                                        testGroup)
 import           Test.Framework.Providers.HUnit       (testCase)
 import           Test.Framework.Providers.QuickCheck2 (testProperty)
-import           UtilTests                            (clampInt)
+import           UtilTests                            (clampInt, interpolate)
 
 
 main :: IO ()
@@ -53,5 +53,6 @@ testSuite =
         ]
     , testGroup "Util tests"
         [ testProperty "Clamping an int between -10 and 10" clampInt
+        , testCase "Interpolate using lerp" interpolate
         ]
     ]
