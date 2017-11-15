@@ -18,12 +18,13 @@ import           AngleTests                           (addDegreesToDegrees,
 import           EulerTests                           (eulerElevations,
                                                        eulerHeadings,
                                                        fromVectorAndBackAgain)
+import           PerlinTests                          (heightAlwaysInRange,
+                                                       heightIsZeroIfInt)
 import           Test.Framework                       (Test, defaultMain,
                                                        testGroup)
 import           Test.Framework.Providers.HUnit       (testCase)
 import           Test.Framework.Providers.QuickCheck2 (testProperty)
 import           UtilTests                            (clampInt, interpolate)
-
 
 main :: IO ()
 main = defaultMain testSuite
@@ -54,5 +55,9 @@ testSuite =
     , testGroup "Util tests"
         [ testProperty "Clamping an int between -10 and 10" clampInt
         , testCase "Interpolate using lerp" interpolate
+        ]
+    , testGroup "Perlin tests"
+        [ testProperty "noise2D always give a value [-1, 1]" heightAlwaysInRange
+        , testProperty "noise2D always give zero if int input" heightIsZeroIfInt
         ]
     ]
