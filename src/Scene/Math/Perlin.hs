@@ -8,6 +8,7 @@
 -- Portability: portable
 module Scene.Math.Perlin
     ( Perlin
+    , Weight (..)
     , initPerlin
     , noise2D
     , composedNoise2D
@@ -24,6 +25,12 @@ import           Scene.Math.Util     (clamp, lerp)
 
 -- | Permutation table used for Perlin noise generation. Precalculate the table.
 newtype Perlin = Perlin (Vector Int)
+    deriving Show
+
+-- | A weight used for composed noise generation. A pair of doubles where the
+-- the first double is a frequency multiplier, and the other is an altitude
+-- multiplier.
+data Weight = Weight !Double !Double
     deriving Show
 
 -- | Initialize the permutation table.
@@ -71,10 +78,10 @@ grad !hash !x !y =
         3 -> (-x) - y
         _ -> 0
 
--- | Compose noise for several frequences and altitudes.
-composedNoise2D :: Perlin -> Double -> Double -> [(Double, Double)] -> Double
+-- | Compose noise for several frequences and altitudes 'Weight's.
+composedNoise2D :: Perlin -> Double -> Double -> [Weight] -> Double
 composedNoise2D perlin !x !y =
-    foldl' (\acc (freq, altitude) ->
+    foldl' (\acc (Weight freq altitude) ->
         acc + altitude * noise2D perlin (x * freq) (y * freq)
         ) 0
 {-# INLINE composedNoise2D #-}
