@@ -40,6 +40,7 @@ test-suite gl-scene-math-tests
   other-modules:       AngleTests
                        EulerTests
                        PerlinTests
+                       SurfaceTests
                        UtilTests
   build-depends:       base >= 4.7 && < 5
                      , flow

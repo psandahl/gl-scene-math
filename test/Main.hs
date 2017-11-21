@@ -20,6 +20,7 @@ import           EulerTests                           (eulerElevations,
                                                        fromVectorAndBackAgain)
 import           PerlinTests                          (heightAlwaysInRange,
                                                        heightIsZeroIfInt)
+import           SurfaceTests                         (heightsInFlatTriangle)
 import           Test.Framework                       (Test, defaultMain,
                                                        testGroup)
 import           Test.Framework.Providers.HUnit       (testCase)
@@ -51,6 +52,9 @@ testSuite =
         [ testCase "Calculation of Euler headings" eulerHeadings
         , testCase "Calculation of Euler elevations" eulerElevations
         , testProperty "From vector and back again" fromVectorAndBackAgain
+        ]
+    , testGroup "Barycentric tests"
+        [ testCase "Heights in flat triangle" heightsInFlatTriangle
         ]
     , testGroup "Util tests"
         [ testProperty "Clamping an int between -10 and 10" clampInt
